@@ -52,7 +52,8 @@ I used keras tuner and Hyperband search method to find:
 - Optimal learning rate of Adam optimizer
 
 The element range is set for 32 to 512, the learning rate range is set for [1e-2, 1e-3, 1e-4].\
-Set up objective, max_epoch, early stopping and validation split\
+Set up objective as val_accuracy, max_epoch, early stopping and validation split\
+After training, Hyperband search gives:
 - The optimal units is 288 and learning rate 0.0001
 
 # Model Building/Training
