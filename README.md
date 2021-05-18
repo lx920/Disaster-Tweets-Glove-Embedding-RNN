@@ -1,6 +1,12 @@
 # Disaster-Tweets-Glove-Embedding-RNN
 This notebook aims to use GloVe Embedding and RNN network to predict Kaggle Competition, Disaster Tweets
 
+# Steps of project
+- 1: Data Preprocessing and Cleaning
+- 2: Glove Vector Embedding
+- 3: RNN network Hyperparameter Tuning
+- 4: RNN network model training
+
 # Introduction
 This is an ongoing Kaggle Competition: https://www.kaggle.com/c/nlp-getting-started/overview \
 The aim of this project is to accurately predict whether a tweet is truly related to a natural disaster or not
@@ -15,12 +21,9 @@ Dependent variable is the 1: Disaster, or 0: non-Disaster.
 - Basic Manipulation: Pandas, Numpy
 - Text processing: re, nltk, contractions
 - Embedding: tensorflow.kera.preprocessing
-- Model Training: tensorflow.keras.Sequential
+- Hyperparameter Tuning: keras tuner
+- Model Training: tensorflow.keras
 
-# Steps of project
-- 1: Data Preprocessing and Cleaning
-- 2: Glove Vector Embedding
-- 3: RNN network model training
 
 # Data Preprocessing and Cleaning
 I want to remove all the garbage before doing word embedding
@@ -43,21 +46,25 @@ Now, I have created the first two layers for the RNN network
 - 1: a 7613 X 120 matrix representation of original cleaned tweets
 - 2: a n X 200 matrix representation of word embedding
 
-# Model Building
-Here I choose to use a sequential model with 3 hidden layers\
-There may be other models or layers that can outperform this. But I have not tested\
-- set up Adam optimizer. This is the most recommended for RNN. It is most accurate and least time consuming for RNN.
-- set up RELU as activation functions. There maybe other activation functions that can perform better, though.
-- set up the loss function as BinaryCrossEntropy. This is predicting 1 or 0 so it should be binary.
-- set up monitors for accuracy and loss for each Epoch. So we can visualize at each training where the model is at
-- set up threshold for early stopping. If 3 continuous Epoch do not improve loss. Then training can stop
-- set up a validation split of 0.8:0.2 as train and test.
+# Hypeparameter Tuning
+I used keras tuner and Hyperband search method to find:
+- Optimal elements in the first dense layer
+- Optimal learning rate of Adam optimizer
 
-I tried different layers, dropout rates, as well as batch sizes. \
-It seems the accuracy approximately max out at around 0.85. Loss minimize around 0.336\
+The element range is set for 32 to 512, the learning rate range is set for [1e-2, 1e-3, 1e-4].\
+Set up objective, max_epoch, early stopping and validation split\
+- The optimal units is 288 and learning rate 0.0001
+
+# Model Building/Training
+- The model incoporate the best Hyperparameters from the previous section.
+- The model has input layer specified as the GloVe embedding
+- A layer of bidirectional LSTM
+- Layer with best Dense elements, Relu activation function
+- Layer with 1 unit and sigmoid activation function. As this is a binary classification
+- loss function as binary cross entrophy. Adam optimizer with 0.0001 learning rate.
 
 # Conclusion and Results
-- The final RNN network has 3 layers. The first two uses RELU activation. I chose to use sigmoid at the last layer, as it is a binary classification
+- The final RNN network has 2 layers. The firstuses RELU activation. I chose to use sigmoid at the last layer, as it is a binary classification
 - I chose a batch size of 100, with this size each Epoch will run on 61 iterations.
 
 The Kaggle Competition Submission has accuracy score of 0.825
