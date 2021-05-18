@@ -63,6 +63,8 @@ Set up objective, max_epoch, early stopping and validation split\
 - Layer with 1 unit and sigmoid activation function. As this is a binary classification
 - loss function as binary cross entrophy. Adam optimizer with 0.0001 learning rate.
 
+In 15 Epoch of training, the loss function minimizes around 0.336, the val accuracy approches 0.8201.
+
 # Conclusion and Results
 - The final RNN network has 2 layers. The firstuses RELU activation. I chose to use sigmoid at the last layer, as it is a binary classification
 - I chose a batch size of 100, with this size each Epoch will run on 61 iterations.
